@@ -1,8 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import logo from './logo.svg'
+import './App.css'
+
+interface ReturnType {
+  message: string
+}
+
+const getMessage = async () => {
+  const res = await fetch('/hello')
+  const mes = await res.json()
+  return mes
+}
 
 const App: React.FC = () => {
+  let mes
+  getMessage().then((value: ReturnType) => {
+    mes = value.message
+  })
+
   return (
     <div className="App">
       <header className="App-header">
@@ -20,7 +35,7 @@ const App: React.FC = () => {
         </a>
       </header>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

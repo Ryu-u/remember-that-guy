@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true, // 重要
+    "allowSyntheticDefaultImports": true,
     "module": "commonjs",
-    "esModuleInterop": true, // 重要
+    "esModuleInterop": true,
     "target": "es6",
     "noImplicitAny": true,
     "moduleResolution": "node",
@@ -13,5 +13,5 @@
       "*": ["node_modules/*", "src/types/*"]
     }
   },
-  "include": ["src/**/*"]
+  "include": ["backend/**/*"]
 }
