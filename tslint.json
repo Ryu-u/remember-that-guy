@@ -1,0 +1,14 @@
+{
+  "extends": [
+    "tslint:recommended",
+    "tslint-react",
+    "tslint-config-prettier",
+    "tslint-plugin-prettier"
+    ],
+  "ruleDirectory": ["tslint-plugin-prettier"],
+  "rules": {
+    "prettier": true,
+    "ordered-imports": false,
+    "no-consecutive-blank-lines": true
+  }
+}

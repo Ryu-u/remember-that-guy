@@ -1,0 +1,69 @@
+{
+  "name": "remember-that-guy",
+  "version": "0.1.0",
+  "engines": {
+    "yarn": "1.16.0"
+  },
+  "private": true,
+  "scripts": {
+    "frontend-start": "react-scripts start",
+    "start": "ts-node backend/index.ts --project ./tsconfig.backend.json",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "yarn && yarn run build "
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "linters": {
+      "*.{ts,tsx}": [
+        "prettier --write",
+        "tslint --fix",
+        "git add"
+      ],
+      "*.{css,scss}": [
+        "prettier --write",
+        "stylelint",
+        "git add"
+      ]
+    }
+  },
+  "proxy": "http://localhost:5000",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@types/jest": "24.0.13",
+    "@types/node": "12.0.7",
+    "@types/react": "16.8.19",
+    "@types/react-dom": "16.8.4",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-scripts": "3.0.1",
+    "ts-node": "^8.2.0",
+    "typescript": "^3.4.5"
+  },
+  "devDependencies": {
+    "husky": "^2.4.0",
+    "lint-staged": "^8.2.0",
+    "prettier": "^1.18.2",
+    "stylelint": "^10.1.0",
+    "tslint": "^5.17.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "tslint-react": "^4.0.0"
+  }
+}
