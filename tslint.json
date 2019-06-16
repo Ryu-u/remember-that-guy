@@ -10,6 +10,7 @@
     "prettier": true,
     "ordered-imports": false,
     "no-consecutive-blank-lines": true,
-    "interface-name": false
+    "interface-name": false,
+    "object-literal-sort-keys": false
   }
 }
