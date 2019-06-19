@@ -12,6 +12,7 @@ import {
   Players,
   Player
 } from './types'
+import { promisify } from 'util'
 
 const app = express()
 
@@ -30,6 +31,7 @@ app.get('/past_games', async (req: Request, res: Response) => {
 
   // プレイヤー情報
   const players: Players[] = []
+  // ここを待たないといけないけど待たせ方がよくわからない
   await pastGameIds.map(async pastGameId => {
     const playersResponse = await axios.get<
       PartOfMatchDto<
@@ -66,12 +68,16 @@ app.get('/past_games', async (req: Request, res: Response) => {
       }
     )
 
-    await players.push({
-      blue: blueTeamParticipants,
-      red: redTeamParticipants
-    })
+    console.log('first')
+    await promisify(() =>
+      players.push({
+        blue: blueTeamParticipants,
+        red: redTeamParticipants
+      })
+    )
   })
 
+  console.log('failure')
   res.json({ playerTeams: players })
 })
 const port = process.env.PORT || 5000
