@@ -13,6 +13,7 @@ import {
   Player
 } from './types'
 import * as bodyParser from 'body-parser'
+import console = require('console')
 
 const app = express()
 
@@ -30,6 +31,7 @@ const wrap = (fn: PromiseRequestHandler): RequestHandler => {
 app.use(express.static('../build'))
 app.use(bodyParser.json())
 
+// 過去のゲーム取得
 app.get(
   '/past_games',
   wrap(async (req: Request, res: Response) => {
@@ -88,6 +90,19 @@ app.get(
   })
 )
 
+// ライバル一覧
+app.get(
+  '/rivals',
+  wrap(async (req: Request, res: Response) => {
+    const rivalsResponse = await db.any(
+      'select name, description from rivals order by created_at'
+    )
+    console.log(rivalsResponse)
+    res.status(200).json({ rivals: rivalsResponse })
+  })
+)
+
+// ライバル登録
 app.post(
   '/remember_rivals',
   wrap(async (req: Request, res: Response) => {

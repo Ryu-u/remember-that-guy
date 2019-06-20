@@ -47,6 +47,7 @@ export interface Player {
   name: string
 }
 
-export interface RivalDescription {
+export interface Rival {
+  name: string
   description: string
 }
