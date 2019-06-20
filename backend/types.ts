@@ -41,9 +41,12 @@ export interface PartOfPlayerDto {
 export interface Players {
   blue: string[]
   red: string[]
-
 }
 
 export interface Player {
   name: string
+}
+
+export interface RivalDescription {
+  description: string
 }
