@@ -2,19 +2,33 @@ import React from 'react'
 import { Rival } from '../backend/types'
 import axios from 'axios'
 
-const
+const RivalList: React.FC = () => {
+  // setStateを配列に指定すればOKっぽい。理由は謎
+  // Refは使えない？
+  const [state, setState] = React.useState<Rival[]>([])
+  React.useEffect(() => {
+    const getRivals = async () => {
+      await axios.get('http://localhost:5000/rivals').then(res => {
+        setState(res.data.rivals)
+      })
+    }
 
-const RivalList: React.FC = () => async () => {
-  const rivalListSetResponse = await axios.get('http://localhost:5000/rivals')
+    getRivals()
+  }, [setState])
 
   return (
     <div>
       <div>
-        {rivalListSetResponse.data.rivals.map((rival: Rival, index: number) => {
+        {state.map((rival: Rival, index: number) => {
+          const nameToUrl = rival.name.replace(/ /g, '')
+          const opggUrl = `https://jp.op.gg/summoner/userName=${nameToUrl}`
           return (
             <div key={index}>
-              =>
-              <div>{rival.name}</div>
+              <div>
+                <a href={opggUrl} target="_blank" rel="noopener noreferrer">
+                  {rival.name}
+                </a>
+              </div>
               <div>{rival.description}</div>
             </div>
           )

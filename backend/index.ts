@@ -98,6 +98,7 @@ app.get(
       'select name, description from rivals order by created_at'
     )
     console.log(rivalsResponse)
+    res.set({ 'Access-Control-Allow-Origin': '*' })
     res.status(200).json({ rivals: rivalsResponse })
   })
 )
