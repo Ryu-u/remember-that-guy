@@ -17,6 +17,15 @@ import console = require('console')
 
 const app = express()
 
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  )
+  next()
+})
+
 type PromiseRequestHandler = (
   req: Request,
   res: Response,
@@ -38,7 +47,7 @@ app.get(
     // 直近３ゲーム
     const pastGameIds: number[] = []
     const gamesResponse = await axios.get<MatchlistDto>(
-      'https://jp1.api.riotgames.com/lol/match/v4/matchlists/by-account/SmTe3BkIqi-OTAHezqR_gDtXt2dYLFMTLerAUDvQfaPpBzJLYWM530WP?endIndex=3&beginIndex=0&api_key=RGAPI-3962d085-0317-45ea-a989-4d40f5c8c14b'
+      'https://jp1.api.riotgames.com/lol/match/v4/matchlists/by-account/SmTe3BkIqi-OTAHezqR_gDtXt2dYLFMTLerAUDvQfaPpBzJLYWM530WP?endIndex=3&beginIndex=0&api_key=RGAPI-854341be-26eb-45f9-a319-a2300a0c6d92'
     )
     gamesResponse.data.matches.map((game: MatchReferenceDto) => {
       pastGameIds.push(game.gameId)
@@ -55,7 +64,7 @@ app.get(
             PartOfParticipantDto
           >
         >(
-          `https://jp1.api.riotgames.com/lol/match/v4/matches/${pastGameId}?api_key=RGAPI-3962d085-0317-45ea-a989-4d40f5c8c14b`
+          `https://jp1.api.riotgames.com/lol/match/v4/matches/${pastGameId}?api_key=RGAPI-854341be-26eb-45f9-a319-a2300a0c6d92`
         )
         const blueTeamParticipantIds: number[] = []
         const redTeamParticipantIds: number[] = []
@@ -86,7 +95,8 @@ app.get(
       })
     )
 
-    res.json({ playerTeams: players })
+    res.set({ 'Access-Control-Allow-Origin': '*' })
+    res.status(200).json({ playerTeams: players })
   })
 )
 
@@ -111,7 +121,6 @@ app.post(
       req.body.name,
       req.body.description
     ])
-
     res.status(201).send('OK')
   })
 )

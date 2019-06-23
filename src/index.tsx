@@ -1,14 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
+import Header from './Header'
 import RivalList from './RivalList'
 import * as serviceWorker from './serviceWorker'
 import { BrowserRouter, Route } from 'react-router-dom'
+import PastGames from './PastGames'
 
 ReactDOM.render(
   <BrowserRouter>
-    <Route path="/" component={RivalList} />
-    {/* <Route path="/past_games" component={PastGames} /> */}
+    <Header />
+    <Route exact={true} path="/" component={RivalList} />
+    <Route path="/past_games/" component={PastGames} />
   </BrowserRouter>,
   document.getElementById('root')
 )

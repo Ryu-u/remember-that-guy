@@ -51,3 +51,8 @@ export interface Rival {
   name: string
   description: string
 }
+
+export interface PastGame {
+  red: string[]
+  blue: string[]
+}
