@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import Modal from '@material-ui/core/Modal'
 import axios from 'axios'
 import { Rival } from '../backend/types'
@@ -10,12 +11,7 @@ interface DescriptionModalProps {
   setRivalsState: (rivals: string[]) => void
 }
 
-const DescriptionModal: React.FC<DescriptionModalProps> = ({
-  isModalOpen = false,
-  setIsModalOpen = () => {},
-  setRivalsState = () => {},
-  name = ''
-}) => {
+const DescriptionModal: React.FC<DescriptionModalProps> = ({ isModalOpen = false, setIsModalOpen = () => { }, setRivalsState = () => { }, name = '' }) => {
   const descriptionRef = React.useRef<HTMLTextAreaElement>(null)
   const handleSubmit = async (ref: React.RefObject<HTMLTextAreaElement>, name: string) => {
     const description = ref.current ? ref.current.value : ''
@@ -45,19 +41,64 @@ const DescriptionModal: React.FC<DescriptionModalProps> = ({
   }
 
   return (
-    <Modal open={isModalOpen}>
-      <form
-        onSubmit={e => {
-          e.preventDefault()
-          e.stopPropagation()
-          handleSubmit(descriptionRef, name)
-        }}
-      >
-        <textarea name="description" ref={descriptionRef} />
-        <button type="submit">登録</button>
-      </form>
+    <Modal open={isModalOpen} onEscapeKeyDown={setIsModalOpen} onBackdropClick={setIsModalOpen}>
+      <FormContainer>
+        <DescriptionForm
+          onSubmit={e => {
+            e.preventDefault()
+            e.stopPropagation()
+            handleSubmit(descriptionRef, name)
+          }}
+        >
+          <DescriptionTextarea name="description" ref={descriptionRef} />
+          <SubmitButton type="submit">登録</SubmitButton>
+        </DescriptionForm>
+      </FormContainer>
     </Modal>
   )
 }
 
 export default DescriptionModal
+
+const FormContainer = styled.div`
+  height: 250px;
+  width: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+`
+const DescriptionTextarea = styled.textarea`
+  height: 200px;
+  width: 300px;
+  font-size: 18px;
+`
+
+const DescriptionForm = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+`
+
+const SubmitButton = styled.button`
+  background-color: #0099ff;
+  color: #ffffff;
+  width: 80px;
+  font-size: 16px;
+  smargin-right: 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid #0099ff;
+  margin-top: 10px;
+  box-sizing: border-box;
+  margin-left: auto;
+
+  &:hover {
+    opacity: 0.8;
+  }
+`

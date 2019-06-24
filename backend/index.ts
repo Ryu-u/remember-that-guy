@@ -40,7 +40,7 @@ app.get(
     // 直近３ゲーム
     const pastGameIds: number[] = []
     const gamesResponse = await axios.get<MatchlistDto>(
-      'https://jp1.api.riotgames.com/lol/match/v4/matchlists/by-account/SmTe3BkIqi-OTAHezqR_gDtXt2dYLFMTLerAUDvQfaPpBzJLYWM530WP?endIndex=3&beginIndex=0&api_key=RGAPI-854341be-26eb-45f9-a319-a2300a0c6d92'
+      'https://jp1.api.riotgames.com/lol/match/v4/matchlists/by-account/SmTe3BkIqi-OTAHezqR_gDtXt2dYLFMTLerAUDvQfaPpBzJLYWM530WP?endIndex=3&beginIndex=0&api_key=RGAPI-524ec094-6fee-44c2-9969-b4112a6c53c5'
     )
     gamesResponse.data.matches.map((game: MatchReferenceDto) => {
       pastGameIds.push(game.gameId)
@@ -54,7 +54,7 @@ app.get(
         const playersResponse = await axios.get<
           PartOfMatchDto<PartOfParticipantIdentityDto<PartOfPlayerDto>, PartOfParticipantDto>
         >(
-          `https://jp1.api.riotgames.com/lol/match/v4/matches/${pastGameId}?api_key=RGAPI-854341be-26eb-45f9-a319-a2300a0c6d92`
+          `https://jp1.api.riotgames.com/lol/match/v4/matches/${pastGameId}?api_key=RGAPI-524ec094-6fee-44c2-9969-b4112a6c53c5`
         )
         const blueTeamParticipantIds: number[] = []
         const redTeamParticipantIds: number[] = []
