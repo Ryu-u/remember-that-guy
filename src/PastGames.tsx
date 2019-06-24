@@ -5,9 +5,13 @@ import axios from 'axios'
 import DescriptionModal from './DescriptionModal'
 
 const PastGames: React.FC = () => {
+  // ど頭で使う
   const [pastGamesState, setPastGamesState] = React.useState<PastGame[]>([])
+  // DescriptionModalとPlayerRowで使う
   const [rivalsState, setRivalsState] = React.useState<string[]>([])
+  // DescriptionModalとRememberButtonで使う
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false)
+  // DescriptionModalとRememberButtonで使う
   const [rivalNameState, setRivalNameState] = React.useState<string>('')
   React.useEffect(() => {
     const getData = async () => {
@@ -26,7 +30,12 @@ const PastGames: React.FC = () => {
 
   return (
     <Container>
-      <DescriptionModal isModalOpen={isModalOpen} name={rivalNameState} setIsModalOpen={() => setIsModalOpen(false)} setRivalsState={setRivalsState} />
+      <DescriptionModal
+        isModalOpen={isModalOpen}
+        name={rivalNameState}
+        setIsModalOpen={() => setIsModalOpen(false)}
+        setRivalsState={setRivalsState}
+      />
       {pastGamesState.map((pastGame, index0) => {
         return (
           <GameContainer key={index0}>

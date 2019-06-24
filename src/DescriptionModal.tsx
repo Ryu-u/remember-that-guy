@@ -11,7 +11,12 @@ interface DescriptionModalProps {
   setRivalsState: (rivals: string[]) => void
 }
 
-const DescriptionModal: React.FC<DescriptionModalProps> = ({ isModalOpen = false, setIsModalOpen = () => { }, setRivalsState = () => { }, name = '' }) => {
+const DescriptionModal: React.FC<DescriptionModalProps> = ({
+  isModalOpen = false,
+  setIsModalOpen = () => {},
+  setRivalsState = () => {},
+  name = ''
+}) => {
   const descriptionRef = React.useRef<HTMLTextAreaElement>(null)
   const handleSubmit = async (ref: React.RefObject<HTMLTextAreaElement>, name: string) => {
     const description = ref.current ? ref.current.value : ''
