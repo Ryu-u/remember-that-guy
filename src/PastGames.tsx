@@ -17,11 +17,9 @@ const PastGames: React.FC = () => {
         const rivals: string[] = res.data.rivals.map((rival: Rival) => {
           return rival.name
         })
-
         setRivalsState(rivals)
       })
     }
-
     getData()
   }, [setPastGamesState])
 
@@ -31,19 +29,19 @@ const PastGames: React.FC = () => {
         isModalOpen={isModalOpen}
         name={rivalNameState}
         setIsModalOpen={() => setIsModalOpen(false)}
+        setRivalsState={setRivalsState}
       />
       {pastGamesState.map((pastGame, index0) => {
         return (
           <div key={index0}>
             <div>red</div>
             {/* red */}
-
             {pastGame.red.map((redTeamPlayerName: string, index1: number) => {
               return (
                 <div key={index1}>
-                  {rivalsState.includes(redTeamPlayerName) ? (
-                    <div>登録済み</div>
-                  ) : (
+                  if(rivalsState.includes(redTeamPlayerName))
+                  {<div>登録済み</div>} else if(redTeamPlayerName === "ParanoiaNuts")
+                  {
                     <button
                       onClick={e => {
                         e.stopPropagation()
@@ -53,7 +51,7 @@ const PastGames: React.FC = () => {
                     >
                       登録
                     </button>
-                  )}
+                  }
                   <div>{redTeamPlayerName}</div>
                 </div>
               )
