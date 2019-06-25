@@ -3,106 +3,42 @@ import styled from 'styled-components'
 import { PastGame, Rival } from '../backend/types'
 import axios from 'axios'
 import DescriptionModal from './DescriptionModal'
+import {
+  usePastGamesState,
+  useRivalsState,
+  useRivalNameState,
+  useIsModalOpenState,
+  usePastGamesEffect,
+  RivalsContext
+} from './hooks'
+import { PlayerRowEnhancer } from './PlayerRow'
+import { TeamContainerEnhancer } from './TeamContainer'
+import { GameContainer } from './GameContainer'
 
 const PastGames: React.FC = () => {
-  // ど頭で使う
-  const [pastGamesState, setPastGamesState] = React.useState<PastGame[]>([])
-  // DescriptionModalとPlayerRowで使う
-  const [rivalsState, setRivalsState] = React.useState<string[]>([])
-  // DescriptionModalとRememberButtonで使う
-  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false)
-  // DescriptionModalとRememberButtonで使う
-  const [rivalNameState, setRivalNameState] = React.useState<string>('')
-  React.useEffect(() => {
-    const getData = async () => {
-      await axios.get('http://localhost:5000/past_games').then(res => {
-        setPastGamesState(res.data.playerTeams)
-      })
-      await axios.get('http://localhost:5000/rivals').then(res => {
-        const rivals: string[] = res.data.rivals.map((rival: Rival) => {
-          return rival.name
-        })
-        setRivalsState(rivals)
-      })
-    }
-    getData()
-  }, [setPastGamesState])
+  const { pastGamesState, setPastGamesState } = usePastGamesState()
+  const { rivalsState, setRivalsState } = useRivalsState()
+  const { isModalOpen, setIsModalOpen } = useIsModalOpenState()
+  const { rivalNameState, setRivalNameState } = useRivalNameState()
+  usePastGamesEffect(setPastGamesState, setRivalsState)
+
+  const PlayerRow = PlayerRowEnhancer(setIsModalOpen, setRivalNameState)
+  const EnhancedTeamContainer = TeamContainerEnhancer(PlayerRow)
 
   return (
-    <Container>
-      <DescriptionModal
-        isModalOpen={isModalOpen}
-        name={rivalNameState}
-        setIsModalOpen={() => setIsModalOpen(false)}
-        setRivalsState={setRivalsState}
-      />
-      {pastGamesState.map((pastGame, index0) => {
-        return (
-          <GameContainer key={index0}>
-            {/* red */}
-            <TeamContainer>
-              <TeamName>red</TeamName>
-              {pastGame.red.map((redTeamPlayerName: string, index1: number) => {
-                return (
-                  <PlayerRow key={index1}>
-                    {(() => {
-                      if (rivalsState.includes(redTeamPlayerName)) {
-                        return <Remembered>登録済み</Remembered>
-                      } else if (redTeamPlayerName === 'ParanoiaNuts') {
-                        return <Myself>自分</Myself>
-                      } else {
-                        return (
-                          <RememberButton
-                            onClick={e => {
-                              e.stopPropagation()
-                              setIsModalOpen(true)
-                              setRivalNameState(redTeamPlayerName)
-                            }}
-                          >
-                            登録
-                          </RememberButton>
-                        )
-                      }
-                    })()}
-                    <PlayerName>{redTeamPlayerName}</PlayerName>
-                  </PlayerRow>
-                )
-              })}
-            </TeamContainer>
-            {/* blue */}
-            <TeamContainer>
-              <TeamName>blue</TeamName>
-              {pastGame.blue.map((blueTeamPlayerName: string, index1: number) => {
-                return (
-                  <PlayerRow key={index1}>
-                    {(() => {
-                      if (rivalsState.includes(blueTeamPlayerName)) {
-                        return <Remembered>登録済み</Remembered>
-                      } else if (blueTeamPlayerName === 'ParanoiaNuts') {
-                        return <Myself>自分</Myself>
-                      } else {
-                        return (
-                          <RememberButton
-                            onClick={e => {
-                              e.stopPropagation()
-                              setIsModalOpen(true)
-                              setRivalNameState(blueTeamPlayerName)
-                            }}
-                          >
-                            登録
-                          </RememberButton>
-                        )
-                      }
-                    })()}
-                    <PlayerName>{blueTeamPlayerName}</PlayerName>
-                  </PlayerRow>
-                )
-              })}
-            </TeamContainer>
-          </GameContainer>
-        )
-      })}
-    </Container>
+    <RivalsContext.Provider value={rivalsState}>
+      <Container>
+        <DescriptionModal
+          isModalOpen={isModalOpen}
+          name={rivalNameState}
+          setIsModalOpen={() => setIsModalOpen(false)}
+          setRivalsState={setRivalsState}
+        />
+        {pastGamesState.map((pastGame, index0) => {
+          return <GameContainer key={index0} pastGame={pastGame} TeamContainer={EnhancedTeamContainer} />
+        })}
+      </Container>
+    </RivalsContext.Provider>
   )
 }
 
@@ -111,17 +47,6 @@ export default PastGames
 const Container = styled.div`
   width: 800px;
   margin: 0 auto;
-  box-sizing: border-box;
-`
-
-const GameContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  border: 1px solid #cdcdcd;
-  border-radius: 7px;
-  margin-top: 10px;
-  padding: 20px;
   box-sizing: border-box;
 `
 
@@ -180,5 +105,3 @@ const RememberButton = styled.button`
     opacity: 0.8;
   }
 `
-
-const PlayerName = styled.div``
