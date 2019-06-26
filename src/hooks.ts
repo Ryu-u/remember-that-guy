@@ -23,7 +23,13 @@ export const useIsModalOpenState = () => {
   return { isModalOpen, setIsModalOpen }
 }
 
-export const RivalsContext = React.createContext<string[]>([])
+export interface PastGamesContextArgs {
+  rivals: string[]
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setRivalNameState: React.Dispatch<React.SetStateAction<string>>
+}
+
+export const PastGamesContext = React.createContext<PastGamesContextArgs | undefined>(undefined)
 
 export const usePastGamesEffect = (
   setPastGamesState: React.Dispatch<React.SetStateAction<PastGame[]>>,

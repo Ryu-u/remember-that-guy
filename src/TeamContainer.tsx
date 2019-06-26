@@ -4,13 +4,12 @@ import PlayerRow from './PlayerRow'
 
 interface TeamContainerProps {
   pastGameTeamMember: string[]
-  PlayerRow: (playerName: string) => JSX.Element
   teamName: string
 }
 
-const TeamContainer: React.FC<TeamContainerProps> = ({ PlayerRow, pastGameTeamMember, teamName }) => {
+const TeamContainer: React.FC<TeamContainerProps> = ({ pastGameTeamMember, teamName }) => {
   return (
-    <div>
+    <TeamRow>
       <TeamName>{teamName}</TeamName>
       {pastGameTeamMember.map((teamPlayerName: string, index1: number) => {
         return (
@@ -19,18 +18,15 @@ const TeamContainer: React.FC<TeamContainerProps> = ({ PlayerRow, pastGameTeamMe
           </div>
         )
       })}
-    </div>
+    </TeamRow>
   )
 }
 
-export const TeamContainerEnhancer = (PlayerRow: (playerName: string, rivalsState: string[]) => JSX.Element) => (
-  pastGameTeamMember: string[],
-  teamName: string
-) => {
-  return <TeamContainer PlayerRow={PlayerRow} pastGameTeamMember={pastGameTeamMember} teamName={teamName} />
-}
-
 export default TeamContainer
+
+const TeamRow = styled.div`
+  width: 45%;
+`
 
 const TeamName = styled.div`
   font-size: 24px;

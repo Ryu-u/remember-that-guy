@@ -1,16 +1,17 @@
 import React from 'react'
-import { PastGame, TeamName } from '../backend/types'
+import { PastGame } from '../backend/types'
 import styled from 'styled-components'
+import TeamContainer from './TeamContainer'
 
 interface GameContainerProps {
   pastGame: PastGame
-  TeamContainer: JSX.Element
 }
 
-export const GameContainer: React.FC<GameContainerProps> = ({ pastGame, TeamContainer }) => {
+export const GameContainer: React.FC<GameContainerProps> = ({ pastGame }) => {
   return (
     <GameContainerArea>
-      <TeamContainer pastGame={pastGame.red} />
+      <TeamContainer pastGameTeamMember={pastGame.red} teamName={'red'} />
+      <TeamContainer pastGameTeamMember={pastGame.blue} teamName={'blue'} />
     </GameContainerArea>
   )
 }

@@ -1,19 +1,21 @@
 import React from 'react'
 import styled from 'styled-components'
-import { RivalsContext } from './hooks'
+import { PastGamesContext } from './hooks'
 
 interface PlayerRowProps {
   playerName: string
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-  setRivalNameState: React.Dispatch<React.SetStateAction<string>>
 }
 
-const PlayerRow: React.FC<PlayerRowProps> = ({ playerName, setIsModalOpen, setRivalNameState }) => {
-  const rivals = React.useContext(RivalsContext)
+const PlayerRow: React.FC<PlayerRowProps> = ({ playerName }) => {
+  const ctx = React.useContext(PastGamesContext)
+  if (!ctx) {
+    throw new Error('no context')
+  }
+
   return (
     <PlayerRowContainer>
       {(() => {
-        if (rivals.includes(playerName)) {
+        if (ctx.rivals.includes(playerName)) {
           return <Remembered>登録済み</Remembered>
         } else if (playerName === 'ParanoiaNuts') {
           return <Myself>自分</Myself>
@@ -22,8 +24,8 @@ const PlayerRow: React.FC<PlayerRowProps> = ({ playerName, setIsModalOpen, setRi
             <RememberButton
               onClick={e => {
                 e.stopPropagation()
-                setIsModalOpen(true)
-                setRivalNameState(playerName)
+                ctx.setIsModalOpen(true)
+                ctx.setRivalNameState(playerName)
               }}
             >
               登録
@@ -33,15 +35,6 @@ const PlayerRow: React.FC<PlayerRowProps> = ({ playerName, setIsModalOpen, setRi
       })()}
       <PlayerName>{playerName}</PlayerName>
     </PlayerRowContainer>
-  )
-}
-
-export const PlayerRowEnhancer = (
-  ModalOpenHandler: React.Dispatch<React.SetStateAction<boolean>>,
-  rivalNameStateHandler: React.Dispatch<React.SetStateAction<string>>
-) => (playerName: string) => {
-  return (
-    <PlayerRow setIsModalOpen={ModalOpenHandler} setRivalNameState={rivalNameStateHandler} playerName={playerName} />
   )
 }
 

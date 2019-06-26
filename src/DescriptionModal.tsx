@@ -18,10 +18,10 @@ const DescriptionModal: React.FC<DescriptionModalProps> = ({
   name = ''
 }) => {
   const descriptionRef = React.useRef<HTMLTextAreaElement>(null)
+
   const handleSubmit = async (ref: React.RefObject<HTMLTextAreaElement>, name: string) => {
     const description = ref.current ? ref.current.value : ''
 
-    console.log(description)
     await axios
       .post(`http://localhost:5000/remember_rivals`, {
         name,
@@ -83,7 +83,7 @@ const DescriptionTextarea = styled.textarea`
   font-size: 18px;
 `
 
-const DescriptionForm = styled.div`
+const DescriptionForm = styled.form`
   display: flex;
   justify-content: center;
   align-items: center;

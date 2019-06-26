@@ -57,7 +57,7 @@ export interface PastGame {
   blue: string[]
 }
 
-export enum TeamName {
+export enum TeamNames {
   RED = 'red',
   BLUE = 'blue'
 }
