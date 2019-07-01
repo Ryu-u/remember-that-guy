@@ -15,6 +15,7 @@ import {
 import * as bodyParser from 'body-parser'
 import console = require('console')
 
+// なるほど
 const app = express()
 
 app.use(function(req, res, next) {
