@@ -4,6 +4,7 @@ import Modal from '@material-ui/core/Modal'
 import axios from 'axios'
 import { Rival } from '../backend/types'
 
+// fugafuga
 interface DescriptionModalProps {
   isModalOpen: boolean
   name: string
