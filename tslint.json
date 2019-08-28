@@ -1,0 +1,15 @@
+{
+  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier", "tslint-plugin-prettier"],
+  "ruleDirectory": ["tslint-plugin-prettier"],
+  "rules": {
+    "prettier": [true, "./.prettierrc"],
+    "ordered-imports": false,
+    "no-consecutive-blank-lines": true,
+    "interface-name": false,
+    "object-literal-sort-keys": false,
+    "jsx-no-lambda": false,
+    "no-empty": false,
+    "max-line-length": [true, 120],
+    "no-shadowed-variable": false
+  }
+}
